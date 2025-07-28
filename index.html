@@ -321,3 +321,125 @@
   </script>
 </body>
 </html>
+
+<!-- Keep your HTML head and styles same as before -->
+
+<script src="https://unpkg.com/yjs"></script>
+<script src="https://unpkg.com/y-webrtc"></script>
+<script>
+  const localTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  document.getElementById('timezone').textContent = localTZ;
+
+  // Generate or get room ID
+  const urlParams = new URLSearchParams(window.location.search);
+  let room = urlParams.get('room');
+  if (!room) {
+    room = Math.random().toString(36).substring(2);
+    window.location.search = '?room=' + room;
+  }
+
+  // Set share link
+  const shareInput = document.getElementById('shareInput');
+  const copyBtn = document.getElementById('copyBtn');
+  shareInput.value = window.location.href;
+
+  copyBtn.addEventListener('click', () => {
+    shareInput.select();
+    document.execCommand('copy');
+    alert("Link copied to clipboard!");
+  });
+
+  shareInput.addEventListener('click', () => {
+    shareInput.select();
+  });
+
+  const ydoc = new Y.Doc();
+  const provider = new WebrtcProvider(room, ydoc);
+  const ymap = ydoc.getMap('meeting');
+
+  alert("You joined room: " + room); // ✅ Alert on joining
+
+  const datetimeInput = document.getElementById('datetime');
+  const proposeBtn = document.getElementById('proposeBtn');
+  const acceptBtn = document.getElementById('acceptBtn');
+  const localView = document.getElementById('localView');
+  const status = document.getElementById('status');
+
+  function formatTime(utcStr) {
+    try {
+      const date = new Date(utcStr);
+      return date.toLocaleString(undefined, {
+        timeZone: localTZ,
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } catch (e) {
+      return 'Invalid time';
+    }
+  }
+
+  function updateDisplay() {
+    const time = ymap.get('time');
+    const accepted = ymap.get('acceptedBy') || [];
+
+    if (time) {
+      localView.textContent = formatTime(time);
+
+      if (accepted.includes(localTZ)) {
+        status.className = 'status accepted';
+        status.innerHTML = `<span class="material-icons">check_circle</span><span>You have accepted this meeting time.</span>`;
+      } else {
+        status.className = 'status pending';
+        status.innerHTML = `<span class="material-icons">pending</span><span>Pending your acceptance.</span>`;
+      }
+    } else {
+      localView.textContent = "";
+      status.className = 'status empty';
+      status.innerHTML = `<span class="material-icons">info</span><span>No meeting time proposed yet.</span>`;
+    }
+  }
+
+  proposeBtn.onclick = () => {
+    const value = datetimeInput.value;
+    if (!value) {
+      alert("Please select a valid date and time.");
+      return;
+    }
+
+    const localDate = new Date(value);
+    if (isNaN(localDate.getTime())) {
+      alert("Invalid date/time selected");
+      return;
+    }
+
+    const isoString = localDate.toISOString();
+    ymap.set('time', isoString);
+    ymap.set('acceptedBy', []);
+    alert("Meeting time proposed: " + formatTime(isoString)); // ✅ Proposal alert
+
+    datetimeInput.value = '';
+  };
+
+  acceptBtn.onclick = () => {
+    const time = ymap.get('time');
+    if (!time) {
+      alert("No meeting proposed yet");
+      return;
+    }
+
+    const accepted = ymap.get('acceptedBy') || [];
+    if (!accepted.includes(localTZ)) {
+      ymap.set('acceptedBy', [...accepted, localTZ]);
+      alert("You accepted the meeting"); // ✅ Acceptance alert
+    } else {
+      alert("You've already accepted this meeting");
+    }
+  };
+
+  ymap.observe(() => updateDisplay());
+  updateDisplay();
+</script>
