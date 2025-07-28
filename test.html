@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yjs and Y-WebRTC Example</title>
+</head>
+<body>
+
+<script type="module">
+    // Import Yjs as an ES module
+    import * as Y from 'https://cdn.jsdelivr.net/npm/yjs@13.6.27/dist/yjs.mjs';
+
+    // Import Y-WebRTC as an ES module (if available)
+    import { WebrtcProvider } from 'https://cdn.jsdelivr.net/npm/y-webrtc@10.3.0/dist/y-webrtc.mjs';
+
+    // Check if Yjs is loaded
+    if (Y) {
+        alert('Yjs is loaded successfully.');
+    } else {
+        alert('Failed to load Yjs.');
+    }
+
+    // Check if Y-WebRTC is loaded
+    if (WebrtcProvider) {
+        alert('Y-WebRTC is loaded successfully.');
+    } else {
+        alert('Failed to load Y-WebRTC.');
+    }
+</script>
+
+</body>
+</html>
