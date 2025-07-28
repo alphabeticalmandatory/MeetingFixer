@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Time Zone Meeting Scheduler</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1976D2;
+      --primary-light: #E3F2FD;
+      --primary-dark: #0D47A1;
+      --text-primary: #212121;
+      --text-secondary: #757575;
+      --divider: #E0E0E0;
+      --white: #FFFFFF;
+    }
+    
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 1rem;
+      color: var(--text-primary);
+      background-color: #f5f5f5;
+      line-height: 1.5;
+    }
+    
+    h1 {
+      color: var(--primary-dark);
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .card {
+      background: var(--white);
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .timezone-display {
+      background: var(--primary-light);
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+    
+    input[type="datetime-local"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--divider);
+      border-radius: 4px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      transition: border 0.3s;
+    }
+    
+    input[type="datetime-local"]:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+    }
+    
+    .actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    button {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+    }
+    
+    #proposeBtn {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+    
+    #acceptBtn {
+      background-color: var(--white);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+    
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    .time-display {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: var(--primary-light);
+      border-radius: 4px;
+      color: var(--primary-dark);
+      font-weight: 500;
+    }
+    
+    .status {
+      padding: 1rem;
+      border-radius: 4px;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .status.pending {
+      background: #FFF3E0;
+      color: #E65100;
+    }
+    
+    .status.accepted {
+      background: #E8F5E9;
+      color: #2E7D32;
+    }
+    
+    .status.empty {
+      background: #F5F5F5;
+      color: var(--text-secondary);
+    }
+    
+    .status.error {
+      background: #FFEBEE;
+      color: #C62828;
+    }
+    
+    .material-icons {
+      font-size: 1.2em;
+      vertical-align: middle;
+    }
+    
+    .share-container {
+      margin-top: 1.5rem;
+    }
+    
+    .share-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .share-box {
+      display: flex;
+      background: var(--white);
+      border: 1px solid var(--divider);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .share-input {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      font-size: 0.875rem;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .share-button {
+      background: var(--primary-light);
+      border: none;
+      padding: 0 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: background 0.2s;
+    }
+    
+    .share-button:hover {
+      background: var(--primary);
+      color: var(--white);
+    }
+    
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary-dark);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 4px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      animation: fadeIn 0.3s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1><span class="material-icons">schedule</span>Meeting Scheduler</h1>
+    
+    <div class="timezone-display">
+      <span class="material-icons">public</span>
+      <span>Your Time Zone: <strong id="timezone"></strong></span>
+    </div>
+    
+    <label for="datetime">Propose Meeting Time:</label>
+    <input type="datetime-local" id="datetime" />
+    
+    <div class="actions">
+      <button id="proposeBtn">
+        <span class="material-icons">send</span>
+        Propose
+      </button>
+      <button id="acceptBtn">
+        <span class="material-icons">check</span>
+        Accept
+      </button>
+    </div>
+    
+    <div class="time-display" id="localView"></div>
+    <div class="status empty" id="status">
+      <span class="material-icons">info</span>
+      <span>No meeting time proposed yet.</span>
+    </div>
+    
+    <div class="share-container">
+      <div class="share-title">
+        <span class="material-icons">link</span>
+        Share this meeting link:
+      </div>
+      <div class="share-box">
+        <input type="text" class="share-input" id="shareInput" readonly value="Loading...">
+        <button class="share-button" id="copyBtn">
+          <span class="material-icons">content_copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Yjs & y-webrtc libraries -->
+  <script src="https://unpkg.com/yjs"></script>
+  <script src="https://unpkg.com/y-webrtc"></script>
+  <script>
+    // Show toast notification
+    function showToast(message, icon = 'info') {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.innerHTML = `<span class="material-icons">${icon}</span> ${message}`;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    const localTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    document.getElementById('timezone').textContent = localTZ;
+
+    const ydoc = new Y.Doc();
+    const room = location.hash.slice(1) || Math.random().toString(36).substring(2);
+    location.hash = room;
+    
+    // Set up share link
+    const shareInput = document.getElementById('shareInput');
+    const copyBtn = document.getElementById('copyBtn');
+    const currentUrl = window.location.href;
+    shareInput.value = currentUrl;
+
+    copyBtn.addEventListener('click', () => {
+      shareInput.select();
+      document.execCommand('copy');
+      showToast('Link copied to clipboard!', 'content_copy');
+    });
+
+    // Add click-to-select functionality
+    shareInput.addEventListener('click', () => {
+      shareInput.select();
+    });
+
+    const provider = new WebrtcProvider(room, ydoc);
+    const ymap = ydoc.getMap('meeting');
+
+    const datetimeInput = document.getElementById('datetime');
+    const proposeBtn = document.getElementById('proposeBtn');
+    const acceptBtn = document.getElementById('acceptBtn');
+    const localView = document.getElementById('localView');
+    const status = document.getElementById('status');
+
+    function formatTime(utcStr) {
+      try {
+        const date = new Date(utcStr);
+        return date.toLocaleString(undefined, { 
+          timeZone: localTZ,
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      } catch (e) {
+        return 'Invalid time';
+      }
+    }
+
+    function updateDisplay() {
+      const time = ymap.get('time');
+      const accepted = ymap.get('acceptedBy') || [];
+
+      if (time) {
+        localView.textContent = formatTime(time);
+        
+        if (accepted.includes(localTZ)) {
+          status.className = 'status accepted';
+          status.innerHTML = `<span class="material-icons">check_circle</span><span>You have accepted this meeting time.</span>`;
+        } else {
+          status.className = 'status pending';
+          status.innerHTML = `<span class="material-icons">pending</span><span>Pending your acceptance.</span>`;
+        }
+      } else {
+        localView.textContent = "";
+        status.className = 'status empty';
+        status.innerHTML = `<span class="material-icons">info</span><span>No meeting time proposed yet.</span>`;
+      }
+    }
+
+    proposeBtn.onclick = () => {
+      const value = datetimeInput.value;
+      if (!value) {
+        showToast("Please select a valid date & time", "error");
+        return;
+      }
+      
+      // Convert local datetime to ISO string (UTC)
+      const localDate = new Date(value);
+      if (isNaN(localDate.getTime())) {
+        showToast("Invalid date/time selected", "error");
+        return;
+      }
+      
+      // Get the ISO string in UTC
+      const isoString = localDate.toISOString();
+      
+      ymap.set('time', isoString);
+      ymap.set('acceptedBy', []);
+      
+      showToast("Meeting time proposed successfully!", "check_circle");
+      datetimeInput.value = ''; // Clear the input
+    };
+
+    acceptBtn.onclick = () => {
+      const time = ymap.get('time');
+      if (!time) {
+        showToast("No meeting time has been proposed yet", "error");
+        return;
+      }
+      
+      const accepted = ymap.get('acceptedBy') || [];
+      if (!accepted.includes(localTZ)) {
+        ymap.set('acceptedBy', [...accepted, localTZ]);
+        showToast("Meeting time accepted!", "check_circle");
+      } else {
+        showToast("You've already accepted this meeting", "info");
+      }
+    };
+
+    ymap.observe(() => updateDisplay());
+
+    // Initial display
+    updateDisplay();
+  </script>
+</body>
+</html>
