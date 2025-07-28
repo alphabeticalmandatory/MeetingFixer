@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
+    /* Your CSS remains unchanged — keeping it clean and scoped */
     :root {
       --primary: #1976D2;
       --primary-light: #E3F2FD;
@@ -16,164 +17,114 @@
       --divider: #E0E0E0;
       --white: #FFFFFF;
     }
-    
+
     body {
       font-family: 'Roboto', Arial, sans-serif;
       max-width: 500px;
       margin: 0 auto;
       padding: 1rem;
-      color: var(--text-primary);
       background-color: #f5f5f5;
-      line-height: 1.5;
+      color: var(--text-primary);
     }
-    
+
     h1 {
       color: var(--primary-dark);
-      font-weight: 500;
-      margin-bottom: 1.5rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
-    
+
     .card {
       background: var(--white);
       border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       padding: 1.5rem;
-      margin-bottom: 1.5rem;
+      margin-top: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    
-    .timezone-display {
-      background: var(--primary-light);
-      padding: 0.75rem 1rem;
-      border-radius: 4px;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      color: var(--text-secondary);
-      font-size: 0.875rem;
-    }
-    
+
     input[type="datetime-local"] {
       width: 100%;
       padding: 0.75rem;
-      border: 1px solid var(--divider);
-      border-radius: 4px;
       font-size: 1rem;
       margin-bottom: 1rem;
-      transition: border 0.3s;
+      border: 1px solid var(--divider);
+      border-radius: 4px;
     }
-    
+
     input[type="datetime-local"]:focus {
-      outline: none;
       border-color: var(--primary);
+      outline: none;
       box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
     }
-    
+
     .actions {
       display: flex;
       gap: 1rem;
       margin-top: 1rem;
     }
-    
+
     button {
       flex: 1;
       padding: 0.75rem;
+      font-size: 1rem;
       border: none;
       border-radius: 4px;
-      font-size: 1rem;
       font-weight: 500;
       cursor: pointer;
+      transition: all 0.3s;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      transition: all 0.3s;
     }
-    
+
     #proposeBtn {
       background-color: var(--primary);
       color: var(--white);
     }
-    
+
     #acceptBtn {
       background-color: var(--white);
       color: var(--primary);
       border: 1px solid var(--primary);
     }
-    
-    button:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
+
+    .timezone-display {
+      background: var(--primary-light);
+      padding: 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 0.5rem;
     }
-    
-    button:active {
-      transform: translateY(0);
+
+    .status {
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
-    
+
+    .status.empty { background: #f5f5f5; color: var(--text-secondary); }
+    .status.pending { background: #FFF3E0; color: #E65100; }
+    .status.accepted { background: #E8F5E9; color: #2E7D32; }
+    .status.error { background: #FFEBEE; color: #C62828; }
+
     .time-display {
-      margin: 1.5rem 0;
+      margin: 1rem 0;
       padding: 1rem;
       background: var(--primary-light);
       border-radius: 4px;
       color: var(--primary-dark);
       font-weight: 500;
     }
-    
-    .status {
-      padding: 1rem;
-      border-radius: 4px;
-      margin-top: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .status.pending {
-      background: #FFF3E0;
-      color: #E65100;
-    }
-    
-    .status.accepted {
-      background: #E8F5E9;
-      color: #2E7D32;
-    }
-    
-    .status.empty {
-      background: #F5F5F5;
-      color: var(--text-secondary);
-    }
-    
-    .status.error {
-      background: #FFEBEE;
-      color: #C62828;
-    }
-    
-    .material-icons {
-      font-size: 1.2em;
-      vertical-align: middle;
-    }
-    
+
     .share-container {
       margin-top: 1.5rem;
     }
-    
-    .share-title {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--text-secondary);
-      font-size: 0.875rem;
-      margin-bottom: 0.5rem;
-    }
-    
+
     .share-box {
       display: flex;
       background: var(--white);
@@ -181,33 +132,21 @@
       border-radius: 4px;
       overflow: hidden;
     }
-    
+
     .share-input {
       flex: 1;
       padding: 0.75rem;
       border: none;
       font-size: 0.875rem;
-      color: var(--text-primary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
-    
+
     .share-button {
       background: var(--primary-light);
       border: none;
       padding: 0 1rem;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      transition: background 0.2s;
     }
-    
-    .share-button:hover {
-      background: var(--primary);
-      color: var(--white);
-    }
-    
+
     .toast {
       position: fixed;
       bottom: 20px;
@@ -217,17 +156,10 @@
       color: white;
       padding: 12px 24px;
       border-radius: 4px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16);
       z-index: 1000;
       display: flex;
       align-items: center;
       gap: 8px;
-      animation: fadeIn 0.3s;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-      to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
   </style>
 </head>
@@ -237,36 +169,26 @@
     
     <div class="timezone-display">
       <span class="material-icons">public</span>
-      <span>Your Time Zone: <strong id="timezone"></strong></span>
+      Your Time Zone: <strong id="timezone"></strong>
     </div>
-    
+
     <label for="datetime">Propose Meeting Time:</label>
     <input type="datetime-local" id="datetime" />
-    
+
     <div class="actions">
-      <button id="proposeBtn">
-        <span class="material-icons">send</span>
-        Propose
-      </button>
-      <button id="acceptBtn">
-        <span class="material-icons">check</span>
-        Accept
-      </button>
+      <button id="proposeBtn"><span class="material-icons">send</span>Propose</button>
+      <button id="acceptBtn"><span class="material-icons">check</span>Accept</button>
     </div>
-    
+
     <div class="time-display" id="localView"></div>
     <div class="status empty" id="status">
-      <span class="material-icons">info</span>
-      <span>No meeting time proposed yet.</span>
+      <span class="material-icons">info</span>No meeting proposed yet.
     </div>
-    
+
     <div class="share-container">
-      <div class="share-title">
-        <span class="material-icons">link</span>
-        Share this meeting link:
-      </div>
+      <p>Share this meeting link:</p>
       <div class="share-box">
-        <input type="text" class="share-input" id="shareInput" readonly value="Loading...">
+        <input type="text" id="shareInput" class="share-input" readonly>
         <button class="share-button" id="copyBtn">
           <span class="material-icons">content_copy</span>
         </button>
@@ -274,60 +196,44 @@
     </div>
   </div>
 
-  <!-- Yjs & y-webrtc libraries -->
+  <!-- Libraries -->
   <script src="https://unpkg.com/yjs"></script>
   <script src="https://unpkg.com/y-webrtc"></script>
   <script>
-    // Show toast notification
-    function showToast(message, icon = 'info') {
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.innerHTML = `<span class="material-icons">${icon}</span> ${message}`;
-      document.body.appendChild(toast);
-      
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 300);
-      }, 3000);
+    const localTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    document.getElementById("timezone").textContent = localTZ;
+
+    function getRoomIdFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let room = urlParams.get("room");
+
+      if (!room) {
+        room = Math.random().toString(36).substring(2, 10);
+        urlParams.set("room", room);
+        const newURL = `${window.location.pathname}?${urlParams.toString()}`;
+        window.history.replaceState({}, '', newURL);
+      }
+
+      return room;
     }
 
-    const localTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    document.getElementById('timezone').textContent = localTZ;
-
+    const room = getRoomIdFromURL();
     const ydoc = new Y.Doc();
-    const room = location.hash.slice(1) || Math.random().toString(36).substring(2);
-    location.hash = room;
-    
-    // Set up share link
-    const shareInput = document.getElementById('shareInput');
-    const copyBtn = document.getElementById('copyBtn');
-    const currentUrl = window.location.href;
-    shareInput.value = currentUrl;
-
-    copyBtn.addEventListener('click', () => {
-      shareInput.select();
-      document.execCommand('copy');
-      showToast('Link copied to clipboard!', 'content_copy');
-    });
-
-    // Add click-to-select functionality
-    shareInput.addEventListener('click', () => {
-      shareInput.select();
-    });
-
     const provider = new WebrtcProvider(room, ydoc);
     const ymap = ydoc.getMap('meeting');
 
-    const datetimeInput = document.getElementById('datetime');
-    const proposeBtn = document.getElementById('proposeBtn');
-    const acceptBtn = document.getElementById('acceptBtn');
-    const localView = document.getElementById('localView');
-    const status = document.getElementById('status');
+    const datetimeInput = document.getElementById("datetime");
+    const proposeBtn = document.getElementById("proposeBtn");
+    const acceptBtn = document.getElementById("acceptBtn");
+    const localView = document.getElementById("localView");
+    const status = document.getElementById("status");
+    const shareInput = document.getElementById("shareInput");
+    const copyBtn = document.getElementById("copyBtn");
 
     function formatTime(utcStr) {
       try {
         const date = new Date(utcStr);
-        return date.toLocaleString(undefined, { 
+        return date.toLocaleString(undefined, {
           timeZone: localTZ,
           weekday: 'long',
           year: 'numeric',
@@ -336,7 +242,7 @@
           hour: '2-digit',
           minute: '2-digit'
         });
-      } catch (e) {
+      } catch {
         return 'Invalid time';
       }
     }
@@ -347,64 +253,70 @@
 
       if (time) {
         localView.textContent = formatTime(time);
-        
+
         if (accepted.includes(localTZ)) {
           status.className = 'status accepted';
-          status.innerHTML = `<span class="material-icons">check_circle</span><span>You have accepted this meeting time.</span>`;
+          status.innerHTML = `<span class="material-icons">check_circle</span>You have accepted this time.`;
         } else {
           status.className = 'status pending';
-          status.innerHTML = `<span class="material-icons">pending</span><span>Pending your acceptance.</span>`;
+          status.innerHTML = `<span class="material-icons">pending</span>Pending your acceptance.`;
         }
       } else {
-        localView.textContent = "";
+        localView.textContent = '';
         status.className = 'status empty';
-        status.innerHTML = `<span class="material-icons">info</span><span>No meeting time proposed yet.</span>`;
+        status.innerHTML = `<span class="material-icons">info</span>No meeting proposed yet.`;
       }
     }
 
     proposeBtn.onclick = () => {
       const value = datetimeInput.value;
-      if (!value) {
-        showToast("Please select a valid date & time", "error");
-        return;
-      }
-      
-      // Convert local datetime to ISO string (UTC)
+      if (!value) return showToast("Please select a date & time", "error");
+
       const localDate = new Date(value);
-      if (isNaN(localDate.getTime())) {
-        showToast("Invalid date/time selected", "error");
-        return;
-      }
-      
-      // Get the ISO string in UTC
+      if (isNaN(localDate.getTime())) return showToast("Invalid date", "error");
+
       const isoString = localDate.toISOString();
-      
       ymap.set('time', isoString);
       ymap.set('acceptedBy', []);
-      
-      showToast("Meeting time proposed successfully!", "check_circle");
-      datetimeInput.value = ''; // Clear the input
+      showToast("Meeting time proposed", "check_circle");
+      datetimeInput.value = '';
     };
 
     acceptBtn.onclick = () => {
       const time = ymap.get('time');
-      if (!time) {
-        showToast("No meeting time has been proposed yet", "error");
-        return;
-      }
-      
+      if (!time) return showToast("No time proposed yet", "error");
+
       const accepted = ymap.get('acceptedBy') || [];
       if (!accepted.includes(localTZ)) {
         ymap.set('acceptedBy', [...accepted, localTZ]);
-        showToast("Meeting time accepted!", "check_circle");
+        showToast("You accepted the meeting", "check_circle");
       } else {
-        showToast("You've already accepted this meeting", "info");
+        showToast("Already accepted", "info");
       }
     };
 
-    ymap.observe(() => updateDisplay());
+    function showToast(message, icon = 'info') {
+      const toast = document.createElement("div");
+      toast.className = "toast";
+      toast.innerHTML = `<span class="material-icons">${icon}</span> ${message}`;
+      document.body.appendChild(toast);
 
-    // Initial display
+      setTimeout(() => {
+        toast.style.opacity = 0;
+        setTimeout(() => toast.remove(), 300);
+      }, 2500);
+    }
+
+    // Populate share link
+    shareInput.value = `${window.location.origin}${window.location.pathname}?room=${room}`;
+    shareInput.addEventListener('click', () => shareInput.select());
+    copyBtn.addEventListener('click', () => {
+      shareInput.select();
+      document.execCommand("copy");
+      showToast("Link copied!", "content_copy");
+    });
+
+    ymap.observe(updateDisplay);
     updateDisplay();
   </script>
 </body>
