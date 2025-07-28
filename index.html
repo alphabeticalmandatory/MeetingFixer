@@ -6,8 +6,26 @@
   <title>Timezone Meeting Scheduler</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="https://unpkg.com/yjs"></script>
-  <script src="https://unpkg.com/y-webrtc"></script>
+ <script type="module">
+    import * as Y from 'https://cdn.jsdelivr.net/npm/yjs@13.6.27/dist/yjs.mjs';
+    import { WebrtcProvider } from 'https://cdn.jsdelivr.net/npm/y-webrtc@10.3.0/dist/y-webrtc.mjs'; // Use .mjs if available
+
+    // Check if Yjs is loaded
+    if (Y) {
+        console.log('Yjs is loaded successfully.');
+    } else {
+        console.error('Failed to load Yjs.');
+    }
+
+    // Check if Y-WebRTC is loaded
+    if (WebrtcProvider) {
+        console.log('Y-WebRTC is loaded successfully.');
+    } else {
+        console.error('Failed to load Y-WebRTC.');
+    }
+</script>
+
+  
   <style>
     :root {
       --primary: #1976D2;
